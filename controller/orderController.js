@@ -1,6 +1,8 @@
 const db = require("../models/index");
 const Orders = db.orders;
-const catchAsync = require("../api_features/catchAsync");
+const Tables = db.tables;
+const catchAsync = require("../middlewares/catchAsync");
+const AppError = require("../middlewares/appError");
 
 exports.create = catchAsync(async (req, res, next) => {
   const orders = {
@@ -26,6 +28,28 @@ exports.findAll = catchAsync(async (req, res, next) => {
     });
   });
 });
+
+exports.findByTableId = catchAsync(async (req, res, next) => {
+  console.log(req.params.tid);
+  const table = await Tables.findByPk(req.params.tid);
+
+  if (!table) return next(new AppError(`No table found with the provided table id: ${req.params.tid}`, 404));
+
+  const data = await Orders.findAll({
+    where: { table_id: req.params.tid },
+    include: [{
+      model: Tables,
+      required: true,
+    }]
+  });
+
+
+  res.status(200).json({
+    status: 'success',
+    results: data.length,
+    data
+  })
+})
 
 exports.findOne = catchAsync(async (req, res, next) => {
   const id = req.params.id * 1;

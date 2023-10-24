@@ -1,6 +1,6 @@
 const db = require("../models/index");
 const Menu = db.menus;
-const catchAsync = require("../api_features/catchAsync");
+const catchAsync = require("../middlewares/catchAsync");
 
 exports.create = catchAsync(async (req, res, next) => {
   const menus = {

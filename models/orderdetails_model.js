@@ -19,19 +19,22 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
     },
     choice_of_meat: {
-        type: Sequelize.STRING,
+      type: Sequelize.STRING,
     },
     removed_ingredients: {
       type: Sequelize.JSON,
     },
     extra_ingredients: {
-        type: Sequelize.JSON,
+      type: Sequelize.JSON,
     },
     extra_quantity: {
-        type: Sequelize.INTEGER,
+      type: Sequelize.INTEGER,
     },
     takeaway: {
       type: Sequelize.BOOLEAN
+    },
+    note: {
+      type: Sequelize.STRING
     }
   });
 

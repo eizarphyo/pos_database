@@ -1,6 +1,9 @@
 const db = require("../models/index");
 const OrderDetails = db.orderDetails;
-const catchAsync = require("../api_features/catchAsync");
+const Orders = db.orders;
+const catchAsync = require("../middlewares/catchAsync");
+const AppError = require('../middlewares/appError');
+const { or } = require("sequelize");
 
 exports.create = catchAsync(async (req, res, next) => {
   const orderDetails = {
@@ -30,6 +33,26 @@ exports.findAll = catchAsync(async (req, res, next) => {
     });
   });
 });
+
+exports.findByOrderId = catchAsync(async (req, res, next) => {
+  const order = await Orders.findByPk(req.params.oid);
+
+  if (!order) return next(new AppError(`No order found with the provided order id: ${req.params.oid}`, 404));
+
+  const data = await OrderDetails.findAll({
+    where: { order_id: req.params.oid },
+    include: [{
+      model: Orders,
+      // required: true,
+    }]
+  });
+
+  res.status(200).json({
+    status: 'success',
+    results: data.length,
+    data
+  })
+})
 
 exports.findOne = catchAsync(async (req, res, next) => {
   const id = req.params.id * 1;

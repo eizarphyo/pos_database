@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const db = require("../models/index");
 const Supervisor = db.supervisor;
 const jwt = require("jsonwebtoken");
-const catchAsync = require("../api_features/catchAsync");
+const catchAsync = require("../middlewares/catchAsync");
 
 exports.register = catchAsync(async (req, res, next) => {
   const { email, name, phone, gender, password } = req.body;
