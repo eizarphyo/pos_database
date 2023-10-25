@@ -1,9 +1,9 @@
 const db = require("../models/index");
 const OrderDetails = db.orderDetails;
 const Orders = db.orders;
+const Menus = db.menus;
 const catchAsync = require("../middlewares/catchAsync");
 const AppError = require('../middlewares/appError');
-const { or } = require("sequelize");
 
 exports.create = catchAsync(async (req, res, next) => {
   const orderDetails = {
@@ -42,8 +42,9 @@ exports.findByOrderId = catchAsync(async (req, res, next) => {
   const data = await OrderDetails.findAll({
     where: { order_id: req.params.oid },
     include: [{
-      model: Orders,
-      // required: true,
+      model: Menus,
+      attributes: ['menu_id', 'food_name'],
+      required: true,
     }]
   });
 

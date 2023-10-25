@@ -1,6 +1,8 @@
 const db = require("../models/index");
 const Orders = db.orders;
 const Tables = db.tables;
+const OrderDetails = db.orderDetails;
+const Menus = db.menus;
 const catchAsync = require("../middlewares/catchAsync");
 const AppError = require("../middlewares/appError");
 
@@ -37,12 +39,17 @@ exports.findByTableId = catchAsync(async (req, res, next) => {
 
   const data = await Orders.findAll({
     where: { table_id: req.params.tid },
+    // required: true,
     include: [{
-      model: Tables,
+      model: OrderDetails,
+      // where: { menu_id: Menus['menu_id'] },
       required: true,
+      include: [{
+        model: Menus,
+        attributes: ['menu_id', 'food_name'],
+      }]
     }]
   });
-
 
   res.status(200).json({
     status: 'success',

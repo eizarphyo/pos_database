@@ -37,4 +37,7 @@ db.tables.belongsTo(db.orders, { foreignKey: 'table_id' });
 db.orderDetails.hasMany(db.orders, { foreignKey: 'order_id' });
 db.orders.belongsTo(db.orderDetails, { foreignKey: 'order_id' });
 
+db.orderDetails.hasMany(db.menus, { foreignKey: 'menu_id' });
+db.menus.belongsTo(db.orderDetails, { foreignKey: 'menu_id' });
+
 module.exports = db;
