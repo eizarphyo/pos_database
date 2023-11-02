@@ -1,11 +1,11 @@
 const { Sequelize, sequelize } = require(".");
 
 module.exports = (sequelize, Sequelize) => {
-  const Waitstaff = sequelize.define("waitstaff", {
-    waitstaff_id: {
+  const Employees = sequelize.define("employees", {
+    employee_id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
-      primaryKey: true
+      primaryKey: true,
     },
     name: {
       type: Sequelize.STRING,
@@ -22,11 +22,16 @@ module.exports = (sequelize, Sequelize) => {
     gender: {
       type: Sequelize.STRING,
     },
+    role: {
+      type: Sequelize.STRING,
+      required: true,
+      allowNull: false,
+    },
     password: {
       type: Sequelize.STRING,
       required: [true, "Please confirm your password"],
       allowNull: false,
     },
   });
-  return Waitstaff;
+  return Employees;
 };

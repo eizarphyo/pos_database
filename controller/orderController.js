@@ -35,28 +35,35 @@ exports.findByTableId = catchAsync(async (req, res, next) => {
   console.log(req.params.tid);
   const table = await Tables.findByPk(req.params.tid);
 
-  if (!table) return next(new AppError(`No table found with the provided table id: ${req.params.tid}`, 404));
+  if (!table)
+    return next(
+      new AppError(
+        `No table found with the provided table id: ${req.params.tid}`,
+        404
+      )
+    );
 
   const data = await Orders.findAll({
     where: { table_id: req.params.tid },
-    // required: true,
-    include: [{
-      model: OrderDetails,
-      // where: { menu_id: Menus['menu_id'] },
-      required: true,
-      include: [{
-        model: Menus,
-        attributes: ['menu_id', 'food_name'],
-      }]
-    }]
+    include: [
+      {
+        model: OrderDetails,
+        // include: [
+        //   {
+        //     model: Menus,
+        //     attributes: ["menu_id", "food_name", "price"],
+        //   },
+        // ],
+      },
+    ],
   });
 
   res.status(200).json({
-    status: 'success',
+    status: "success",
     results: data.length,
-    data
-  })
-})
+    data,
+  });
+});
 
 exports.findOne = catchAsync(async (req, res, next) => {
   const id = req.params.id * 1;

@@ -3,7 +3,8 @@ const OrderDetails = db.orderDetails;
 const Orders = db.orders;
 const Menus = db.menus;
 const catchAsync = require("../middlewares/catchAsync");
-const AppError = require('../middlewares/appError');
+const AppError = require("../middlewares/appError");
+const { or } = require("sequelize");
 
 exports.create = catchAsync(async (req, res, next) => {
   const orderDetails = {
@@ -37,23 +38,29 @@ exports.findAll = catchAsync(async (req, res, next) => {
 exports.findByOrderId = catchAsync(async (req, res, next) => {
   const order = await Orders.findByPk(req.params.oid);
 
-  if (!order) return next(new AppError(`No order found with the provided order id: ${req.params.oid}`, 404));
+  if (!order)
+    return next(
+      new AppError(
+        `No order found with the provided order id: ${req.params.oid}`,
+        404
+      )
+    );
 
   const data = await OrderDetails.findAll({
     where: { order_id: req.params.oid },
-    include: [{
-      model: Menus,
-      attributes: ['menu_id', 'food_name'],
-      required: true,
-    }]
+    include: [
+      {
+        model: Menus,
+      },
+    ],
   });
 
   res.status(200).json({
-    status: 'success',
+    status: "success",
     results: data.length,
-    data
-  })
-})
+    data,
+  });
+});
 
 exports.findOne = catchAsync(async (req, res, next) => {
   const id = req.params.id * 1;
@@ -72,19 +79,21 @@ exports.findOne = catchAsync(async (req, res, next) => {
 exports.delete = catchAsync(async (req, res, next) => {
   const id = req.params.id * 1;
 
-  await OrderDetails.destroy({ where: { orderDetails_id: id } }).then((deleted) => {
-    if (deleted) {
-      res.status(200).json({
-        status: "success",
-        message: "Deleted successfully",
-      });
-    } else {
-      res.status(404).json({
-        status: "fail",
-        message: "Invalid ID",
-      });
+  await OrderDetails.destroy({ where: { orderDetails_id: id } }).then(
+    (deleted) => {
+      if (deleted) {
+        res.status(200).json({
+          status: "success",
+          message: "Deleted successfully",
+        });
+      } else {
+        res.status(404).json({
+          status: "fail",
+          message: "Invalid ID",
+        });
+      }
     }
-  });
+  );
 });
 
 exports.deleteAll = catchAsync(async (req, res, next) => {

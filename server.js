@@ -31,13 +31,12 @@ require("./routes/menus.route")(app);
 require("./routes/tables.route")(app);
 require("./routes/employeesRegister.route")(app);
 require("./routes/login.route")(app);
-require("./routes/waitstaff.route")(app);
+require("./routes/employees.route")(app);
 require("./routes/order.route")(app);
-require("./routes/managerRegister.route")(app);
-require("./routes/supervisorRegister.route")(app);
 require("./routes/orderdetails.route")(app);
 require("./routes/bill.route")(app);
 require("./routes/reservation.route")(app);
+require("./routes/categories.route")(app);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`), 404);
