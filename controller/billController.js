@@ -12,10 +12,11 @@ exports.create = catchAsync(async (req, res, next) => {
     const bill = {
         order_id: req.params.id,
         menu_id: req.body.menu_id,
-        payment_id: req.body.payment_id,
         qty: req.body.qty,
         discount: req.body.discount,
-        total_price: req.body.total_price
+        total_price: req.body.total_price,
+        payment_id: req.body.payment_id,
+        payment_status: req.body.payment_status
     };
 
     await Bills.create(bill).then((data) => {
@@ -27,7 +28,16 @@ exports.create = catchAsync(async (req, res, next) => {
 
 });
 
-exports.getAll = catchAsync(async (req, res, next) => {
+exports.getAllBill = catchAsync(async (req, res, next) => {
+    const bills = await Bills.findAll();
+
+    res.status(200).json({
+        status: 'success',
+        bills
+    });
+});
+
+exports.getAllWithOid = catchAsync(async (req, res, next) => {
     const bills = await Bills.findAll({ where: { order_id: req.params.id } });
 
     if (!bills) {

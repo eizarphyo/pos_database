@@ -29,13 +29,19 @@ db.bills = require("./bill_model")(sequelize, Sequelize);
 db.reservations = require("./reservation_model")(sequelize, Sequelize);
 db.categories = require("./category_model")(sequelize, Sequelize);
 
-db.orders.hasMany(db.tables, { foreignKey: "table_id" });
-db.tables.belongsTo(db.orders, { foreignKey: "table_id" });
+// db.orders.hasMany(db.tables, { foreignKey: "table_id" });
+// db.tables.belongsTo(db.orders, { foreignKey: "table_id" });
 
 db.orderDetails.hasMany(db.orders, { foreignKey: "order_id" });
 db.orders.belongsTo(db.orderDetails, { foreignKey: "order_id" });
 
-db.orderDetails.hasMany(db.menus, { foreignKey: "menu_id" });
-db.menus.belongsTo(db.orderDetails, { foreignKey: "menu_id" });
+// db.orderDetails.hasMany(db.menus, { foreignKey: "menu_id" });
+// db.menus.belongsTo(db.orderDetails, { foreignKey: "menu_id" });
+
+// db.menus.hasMany(db.ingredients, { foreignKey: 'ingredient_ids' });
+// db.ingredients.belongsTo(db.menus, { foreignKey: 'ingredient_id' });
+
+db.menus.hasMany(db.categories, { foreignKey: "category_id" });
+db.categories.belongsTo(db.menus, { foreignKey: "category_id" });
 
 module.exports = db;

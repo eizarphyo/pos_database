@@ -15,18 +15,23 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             foreignKey: true
         },
+        qty: {
+            type: Sequelize.INTEGER
+        },
+        // discount: {
+        //     type: Sequelize.INTEGER,
+        //     defaultValue: 0
+        // },
+        total_price: {
+            type: Sequelize.INTEGER
+        },
         payment_id: {
             type: Sequelize.INTEGER,
             foreignKey: true
         },
-        qty: {
-            type: Sequelize.INTEGER
-        },
-        discount: {
-            type: Sequelize.INTEGER
-        },
-        total_price: {
-            type: Sequelize.INTEGER
+        payment_status: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false
         }
     });
 

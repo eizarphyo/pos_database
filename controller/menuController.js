@@ -1,13 +1,16 @@
 const db = require("../models/index");
 const Menu = db.menus;
+const Category = db.categories;
 const catchAsync = require("../middlewares/catchAsync");
 
 exports.create = catchAsync(async (req, res, next) => {
   const menus = {
     category_id: req.body.category_id,
-    ingredient_id: req.body.ingredient_id,
-    extraFood_id: req.body.extraFood_id,
+    ingredient_ids: req.body.ingredient_ids,
+    extraFood_ids: req.body.extraFood_ids,
+    meat_choice: req.body.meat_choice,
     food_name: req.body.food_name,
+    quantity: req.body.quantity,
     price: req.body.price,
     img: req.body.img,
     is_available: req.body.is_available
@@ -27,6 +30,40 @@ exports.findAll = catchAsync(async (req, res, next) => {
       status: "success",
       data,
     });
+  });
+});
+
+exports.getNames = catchAsync(async (req, res, next) => {
+  await Menu.findAll({
+    attributes: ['menu_id', 'food_name', 'price']
+  }).then((data) => {
+    res.status(200).json({
+      status: "success",
+      data,
+    });
+  });
+});
+
+exports.findByCategoryId = catchAsync(async (req, res, next) => {
+  console.log(req.params.ctg_id);
+  const category = await Category.findByPk(req.params.ctg_id);
+  if (!category)
+    return next(
+      new AppError(
+        `No table found with the provided category id: ${req.params.ctg_id}`,
+        404
+      )
+    );
+  var id = req.params.ctg_id * 1;
+  const data = await Menu.findAll({
+    where: {
+      category_id: id,
+    },
+  });
+  res.status(200).json({
+    status: "success",
+    results: data.length,
+    data,
   });
 });
 

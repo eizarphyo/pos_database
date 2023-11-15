@@ -11,13 +11,26 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
       foreignKey: true,
     },
-    ingredient_id: {
-      type: Sequelize.INTEGER,
+    ingredient_ids: {
+      type: Sequelize.JSON,
       foreignKey: true,
     },
-    extraFood_id: {
-      type: Sequelize.INTEGER,
+    extraFood_ids: {
+      type: Sequelize.JSON,
       foreignKey: true,
+    },
+    // meat_choice: {
+    //   type: Sequelize.ENUM,
+    //   values: ['chicken', 'pork', 'beef', 'fried egg'],
+    //   defaultValue: null
+    // },
+    meat_choice: {
+      type: Sequelize.STRING,
+      defaultValue: null
+    },
+    quantity: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0
     },
     food_name: {
       type: Sequelize.STRING,

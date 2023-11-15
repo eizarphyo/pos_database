@@ -18,6 +18,8 @@ module.exports = (sequelize, Sequelize) => {
     is_available: {
       type: Sequelize.BOOLEAN
     }
+  }, {
+    timestamps: false
   });
   return Tables;
 };

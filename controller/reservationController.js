@@ -9,8 +9,9 @@ exports.create = catchAsync(async (req, res, next) => {
         table_id: req.body.table_id,
         reserved_date: req.body.reserved_date,
         reserved_time: req.body.reserved_time,
-        reserved_at: req.body.reserved_at,
         reserved_by: req.body.reserved_by,
+        num_of_people: req.body.num_of_people,
+        phone: req.body.phone,
         prepared: req.body.prepared,
         notes: req.body.notes,
         deposit: req.body.deposit

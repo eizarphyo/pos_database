@@ -1,3 +1,4 @@
+const QueryTypes = require('sequelize');
 const db = require("../models/index");
 const Orders = db.orders;
 const Tables = db.tables;
@@ -11,7 +12,11 @@ exports.create = catchAsync(async (req, res, next) => {
     table_id: req.body.table_id,
     waitstaff_id: req.body.waitstaff_id,
     order_type: req.body.order_type,
+    order_submitted: req.body.order_submitted,
+    total_price: req.body.total_price,
+    discount: req.body.discount,
     is_paid: req.body.is_paid,
+    is_finished: req.body.is_finished,
   };
 
   await Orders.create(orders).then((data) => {
@@ -31,8 +36,7 @@ exports.findAll = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.findByTableId = catchAsync(async (req, res, next) => {
-  console.log(req.params.tid);
+exports.getAllByTableId = catchAsync(async (req, res, next) => {
   const table = await Tables.findByPk(req.params.tid);
 
   if (!table)
@@ -43,20 +47,35 @@ exports.findByTableId = catchAsync(async (req, res, next) => {
       )
     );
 
-  const data = await Orders.findAll({
-    where: { table_id: req.params.tid },
-    include: [
-      {
-        model: OrderDetails,
-        // include: [
-        //   {
-        //     model: Menus,
-        //     attributes: ["menu_id", "food_name", "price"],
-        //   },
-        // ],
-      },
-    ],
-  });
+  if (!req.query.submitted) {
+    req.query.submitted = false;
+  }
+
+  const data = await db.sequelize.query(
+    `SELECT * FROM Orders JOIN "orderDetails" ON Orders.order_id="orderDetails".order_id AND Orders.order_submitted=${req.query.submitted} AND Orders.is_finished=false`,
+    {
+      // type: db.Sequelize.QueryTypes.SELECT,
+      model: OrderDetails,
+      mapToModel: true,
+      // order: ['menu_id']
+    }
+  );
+
+  // const data = await Orders.findAll({
+  //   where: { table_id: req.params.tid },
+  //   include: [
+  //     {
+  //       model: OrderDetails,
+  //       required: true
+  //       // include: [
+  //       //   {
+  //       //     model: Menus,
+  //       //     attributes: ["menu_id", "food_name", "price"],
+  //       //   },
+  //       // ],
+  //     },
+  //   ],
+  // });
 
   res.status(200).json({
     status: "success",
@@ -70,7 +89,10 @@ exports.findOne = catchAsync(async (req, res, next) => {
 
   await Orders.findByPk(id).then((data) => {
     if (data) {
-      res.send(data);
+      res.status(200).json({
+        status: "success",
+        data
+      });
     } else {
       res.status(404).send({
         message: `Cannot find Order with id=${id}.`,

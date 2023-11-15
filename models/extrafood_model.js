@@ -12,8 +12,11 @@ module.exports = (sequelize, Sequelize) => {
       required: true,
     },
     price: {
-        type: Sequelize.INTEGER,
+      type: Sequelize.INTEGER,
     }
-  });
+  },
+    {
+      timestamps: false
+    });
   return ExtraFoods;
 };

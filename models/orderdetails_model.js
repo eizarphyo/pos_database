@@ -20,6 +20,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     choice_of_meat: {
       type: Sequelize.STRING,
+      allowNull: true,
     },
     removed_ingredients: {
       type: Sequelize.JSON,
@@ -28,7 +29,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.JSON,
     },
     extra_quantity: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.JSON,
     },
     takeaway: {
       type: Sequelize.BOOLEAN
@@ -36,6 +37,8 @@ module.exports = (sequelize, Sequelize) => {
     note: {
       type: Sequelize.STRING
     }
+  }, {
+    timestamps: false
   });
 
   return OrderDetails;

@@ -19,13 +19,32 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    total_price: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0
+    },
+    discount: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0
+    },
     is_paid: {
       type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
+    order_submitted: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
+    is_finished: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
     },
     orderDate: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW,
     },
+  }, {
+    timestamps: false
   });
 
   return Orders;

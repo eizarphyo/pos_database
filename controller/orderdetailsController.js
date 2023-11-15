@@ -48,11 +48,12 @@ exports.findByOrderId = catchAsync(async (req, res, next) => {
 
   const data = await OrderDetails.findAll({
     where: { order_id: req.params.oid },
-    include: [
-      {
-        model: Menus,
-      },
-    ],
+    // include: [
+    //   {
+    //     model: Menus,
+    //     attributes: ['food_name', 'price']
+    //   },
+    // ],
   });
 
   res.status(200).json({

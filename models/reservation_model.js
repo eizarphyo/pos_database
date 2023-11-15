@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 module.exports = (sequelize, Sequelize) => {
     const Reservaions = sequelize.define('reservations', {
         id: {
@@ -23,9 +25,18 @@ module.exports = (sequelize, Sequelize) => {
         },
         reserved_at: {
             type: Sequelize.DATE,
-            defaultValue: Sequelize.NOW,
+            allowNull: false,
+            defaultValue: Date.now(),
         },
         reserved_by: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        num_of_people: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        phone: {
             type: Sequelize.STRING,
             allowNull: false
         },
