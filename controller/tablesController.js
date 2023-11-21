@@ -1,4 +1,3 @@
-const { Sequelize, Op } = require("sequelize");
 const db = require("../models/index");
 const Table = db.tables;
 const ApiFeatuers = require('../middlewares/api_features');
@@ -31,6 +30,15 @@ exports.findAll = catchAsync(async (req, res, next) => {
   // });
 
   await Table.findAll({ order: [['table_id', 'ASC']] }).then((data) => {
+    res.status(200).json({
+      status: "success",
+      data,
+    });
+  });
+});
+
+exports.getCapacities = catchAsync(async (req, res, next) => {
+  await Table.findAll({ order: [['table_id', 'ASC']], attributes: ['table_id', 'table_no', 'capacity'] }).then((data) => {
     res.status(200).json({
       status: "success",
       data,
