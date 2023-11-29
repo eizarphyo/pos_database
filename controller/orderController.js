@@ -52,7 +52,7 @@ exports.getAllByTableId = catchAsync(async (req, res, next) => {
   }
 
   const data = await db.sequelize.query(
-    `SELECT * FROM Orders JOIN "orderDetails" ON Orders.order_id="orderDetails".order_id AND Orders.order_submitted=${req.query.submitted} AND Orders.is_finished=false`,
+    `SELECT * FROM Orders JOIN "orderDetails" ON Orders.order_id="orderDetails".order_id AND Orders.table_id=${req.params.tid} AND Orders.order_submitted=${req.query.submitted} AND Orders.is_finished=false`,
     {
       // type: db.Sequelize.QueryTypes.SELECT,
       model: OrderDetails,
