@@ -56,11 +56,24 @@ exports.signIn = catchAsync(async (req, res, next) => {
 });
 
 exports.employees = catchAsync(async (req, res, next) => {
-  await Employees.findAll().then((user) => {
-    res.status(200).json({
-      status: "success",
-      user,
-    });
+  let user;
+  if (req.query.role) {
+    user = await db.sequelize.query(
+      `SELECT employees.employee_id, employees.name, employees.email, employees.role FROM EMPLOYEES WHERE role=${req.query.role}`,
+      {
+        type: db.Sequelize.QueryTypes.SELECT,
+      })
+  } else {
+    user = await db.sequelize.query(
+      `SELECT employees.employee_id, employees.name, employees.email, employees.role FROM EMPLOYEES`,
+      {
+        type: db.Sequelize.QueryTypes.SELECT,
+      })
+  }
+
+  res.status(200).json({
+    status: "success",
+    user,
   });
 });
 
