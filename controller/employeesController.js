@@ -10,6 +10,7 @@ exports.register = catchAsync(async (req, res, next) => {
     phone: req.body.phone,
     name: req.body.name,
     role: req.body.role,
+    img: req.body.img,
     gender: req.body.gender,
     password: await bcrypt.hash(req.body.password, 15),
   };
@@ -82,7 +83,10 @@ exports.findOne = catchAsync(async (req, res, next) => {
 
   await Employees.findByPk(id).then((user) => {
     if (user) {
-      res.send(user);
+      res.status(200).json({
+        status: "success",
+        user
+      });
     } else {
       res.status(404).send({
         message: `Cannot find Employee with id=${id}.`,

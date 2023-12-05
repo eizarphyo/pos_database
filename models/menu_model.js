@@ -23,10 +23,6 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.JSON({ values: ['Chicken', 'Pork', 'Beef', 'Fried Egg'] }),
       defaultValue: null,
     },
-    // meat_choice: {
-    //   type: Sequelize.STRING,
-    //   defaultValue: null
-    // },
     quantity: {
       type: Sequelize.INTEGER,
       defaultValue: 0
@@ -44,6 +40,8 @@ module.exports = (sequelize, Sequelize) => {
     is_available: {
       type: Sequelize.BOOLEAN
     }
+  }, {
+    timestamps: false
   });
 
   return Menus;

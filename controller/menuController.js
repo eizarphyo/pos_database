@@ -13,8 +13,12 @@ exports.create = catchAsync(async (req, res, next) => {
     quantity: req.body.quantity,
     price: req.body.price,
     img: req.body.img,
+    imgData: req.file.buffer,
     is_available: req.body.is_available
   };
+
+  console.log(req.file);
+  console.log(req.file.buffer);
 
   await Menu.create(menus).then((data) => {
     res.status(200).json({

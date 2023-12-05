@@ -19,6 +19,9 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       required: true,
     },
+    img: {
+      type: Sequelize.STRING,
+    },
     gender: {
       type: Sequelize.STRING,
     },
@@ -32,6 +35,8 @@ module.exports = (sequelize, Sequelize) => {
       required: [true, "Please confirm your password"],
       allowNull: false,
     },
+  }, {
+    timestamps: false
   });
   return Employees;
 };
