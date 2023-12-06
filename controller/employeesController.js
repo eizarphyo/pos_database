@@ -60,13 +60,13 @@ exports.employees = catchAsync(async (req, res, next) => {
   let user;
   if (req.query.role) {
     user = await db.sequelize.query(
-      `SELECT employees.employee_id, employees.name, employees.email, employees.role FROM EMPLOYEES WHERE role=${req.query.role}`,
+      `SELECT employees.employee_id, employees.name, employees.email, employees.role, employees.img FROM EMPLOYEES WHERE role=${req.query.role}`,
       {
         type: db.Sequelize.QueryTypes.SELECT,
       })
   } else {
     user = await db.sequelize.query(
-      `SELECT employees.employee_id, employees.name, employees.email, employees.role FROM EMPLOYEES`,
+      `SELECT employees.employee_id, employees.name, employees.email, employees.role, employees.img FROM EMPLOYEES`,
       {
         type: db.Sequelize.QueryTypes.SELECT,
       })
